@@ -7,7 +7,6 @@ import PostList from './pages/PostList';
 import PostDetail from './pages/PostDetail';
 
 // Styles
-import './App.css';
 import './index.css'
 
 // Layout Component to wrap around pages
@@ -28,7 +27,7 @@ const Layout = ({ children }) => {
 
     return (
         // The 'dark' class on this outer div is no longer needed since we apply it to the <html> tag
-        <div className="bg-gray-50 dark:bg-gray-900 min-h-screen font-sans text-gray-800 dark:text-gray-200">
+        <div className="min-h-screen font-sans">
             <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-10">
                 <nav className="container mx-auto px-4 lg:px-6 py-4">
                     <div className="flex justify-between items-center">
@@ -56,6 +55,7 @@ const Layout = ({ children }) => {
 
             <footer className="text-center py-4 border-t dark:border-gray-700 mt-8">
                 <p>Built with React & Tailwind CSS</p>
+                <p>&copy; {new Date().getFullYear()} FilbertSM. All rights reserved.</p>
             </footer>
         </div>
     );
