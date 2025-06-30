@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from './ThemeContext.jsx';
 
-// Pages
+// Pages    
 import Home from './pages/Home';
 import PostList from './pages/PostList';
 import PostDetail from './pages/PostDetail';
@@ -43,12 +43,12 @@ const Layout = ({ children }) => {
                 <nav className="container mx-auto px-4 lg:px-6 py-4">
                     <div className="flex justify-between items-center">
                         <NavLink to="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                            React Posts
+                            JSON Bank
                         </NavLink>
                         <div className="flex items-center space-x-4">
                            <NavLink to="/" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Home</NavLink>
                            <NavLink to="/posts" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Posts</NavLink>
-                           <ThemeToggle />
+                           {/* <ThemeToggle /> */}
                         </div>
                     </div>
                 </nav>
