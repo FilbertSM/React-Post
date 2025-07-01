@@ -15,12 +15,13 @@ const ErrorMessage = ({ message }) => (
     </div>
 );
 
-const PostDetail = () => {
+const JsonDetail = () => {
     const { postId } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchPostData = async () => {
@@ -49,7 +50,7 @@ const PostDetail = () => {
 
     return (
         <div className="w-full max-w-4xl mx-auto">
-            <button onClick={() => navigate('/posts')} className="mb-6 inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors">
+            <button onClick={() => navigate('/json-data')} className="mb-6 inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-colors">
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to All Posts
             </button>
@@ -75,4 +76,4 @@ const PostDetail = () => {
     );
 };
 
-export default PostDetail;
+export default JsonDetail;

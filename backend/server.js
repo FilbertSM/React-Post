@@ -15,3 +15,8 @@ app.use('/api/posts', postRouter);
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+// Add this new route for the root URL
+app.get('/', (req, res) => {
+    res.send('Welcome to the backend API!');
+});

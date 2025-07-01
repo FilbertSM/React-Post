@@ -6,6 +6,8 @@ import { useTheme } from './ThemeContext.jsx';
 import Home from './pages/Home';
 import PostList from './pages/PostList';
 import PostDetail from './pages/PostDetail';
+import JsonData from './pages/JsonData';
+import JsonDetail from './pages/JsonDetail';
 
 // Styles
 import './index.css';
@@ -48,6 +50,7 @@ const Layout = ({ children }) => {
                         <div className="flex items-center space-x-4">
                            <NavLink to="/" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Home</NavLink>
                            <NavLink to="/posts" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Posts</NavLink>
+                           <NavLink to="/json-data" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>JSON Data</NavLink>
                            {/* <ThemeToggle /> */}
                         </div>
                     </div>
@@ -72,8 +75,11 @@ function App() {
             <Layout>
                 <Routes>
                     <Route path='/' element={<Home />} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/posts' element={<PostList />} />
                     <Route path='/posts/:postId' element={<PostDetail />} />
+                    <Route path='/json-data' element={<JsonData />} />
+                    <Route path='/json-data/:postId' element={<JsonDetail />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
