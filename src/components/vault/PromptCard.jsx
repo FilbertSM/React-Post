@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Hash, Maximize2, X } from 'lucide-react';
+import { Copy, Check, Hash, Maximize2, X, Terminal } from 'lucide-react';
 import { useCopyPrompt } from '../../hooks/usePrompts';
 
 export default function PromptCard({ prompt }) {
@@ -25,7 +25,7 @@ export default function PromptCard({ prompt }) {
       <div className="glass-panel rounded-xl overflow-hidden flex flex-col premium-hover group h-[420px]">
         
         {/* Header */}
-        <div className="px-5 py-4 border-b border-text-secondary/10 flex justify-between items-start bg-surface-elevated/40 backdrop-blur-sm">
+        <div className="px-5 py-4 border-b border-text-secondary/10 flex justify-between items-start bg-surface-elevated/40 backdrop-blur-sm z-10 text-shadow-sm">
           <div className="flex-1 min-w-0 pr-2">
             <h3 className="text-text-primary font-semibold text-lg truncate font-sans tracking-tight">{prompt.title}</h3>
             <div className="flex items-center gap-2 mt-2 flex-wrap">
@@ -45,11 +45,10 @@ export default function PromptCard({ prompt }) {
           </div>
         </div>
 
-        {/* Image Handling */}
-        {prompt.imageUrl ? (
+        {/* Dynamic Image Handling */}
+        {prompt.imageUrl && (
           <div className="w-full h-32 border-b border-white/5 flex-shrink-0 overflow-hidden relative">
-            {/* Inner subtle glow for premium feel */}
-            <div className="absolute inset-0 ring-1 ring-inset ring-black/20 z-10"></div>
+            <div className="absolute inset-0 ring-1 ring-inset ring-black/20 z-10 pointer-events-none"></div>
             <img 
               src={prompt.imageUrl} 
               alt={prompt.title} 
@@ -57,15 +56,22 @@ export default function PromptCard({ prompt }) {
               loading="lazy"
             />
           </div>
-        ) : (
-          <div className="w-full h-32 border-b border-white/5 flex-shrink-0 bg-surface-bg/30 flex items-center justify-center text-text-secondary/20 font-mono text-[10px] tracking-widest uppercase">
-            [ NO VISUAL DATA ]
-          </div>
         )}
 
         {/* Body: Payload pure raw text */}
-        <div className="p-5 flex-grow bg-surface-bg/20 overflow-hidden relative">
-          <pre className="text-xs text-text-secondary/90 whitespace-pre-wrap font-mono leading-relaxed line-clamp-4 smooth-scrollbar selection:bg-white/20 selection:text-white">
+        <div className={`p-5 flex-grow overflow-hidden relative z-0 transition-all duration-300 ${!prompt.imageUrl ? 'bg-surface-bg/60' : 'bg-surface-bg/20'}`}>
+          
+          {/* Aesthetic upgrade for Text-Only cards (No Image fallback) */}
+          {!prompt.imageUrl && (
+            <div className="absolute inset-0 pointer-events-none -z-10">
+              {/* Drafting grid mimicking code editors */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:linear-gradient(to_bottom,black_20%,transparent_100%)]"></div>
+              {/* Massive subtle watermark */}
+              <Terminal className="absolute -bottom-8 -right-8 w-48 h-48 text-white/[0.015] -rotate-12 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-0" />
+            </div>
+          )}
+
+          <pre className={`text-[13px] text-text-secondary/90 whitespace-pre-wrap font-mono leading-relaxed smooth-scrollbar selection:bg-brand-primary selection:text-black ${prompt.imageUrl ? 'line-clamp-4' : 'line-clamp-[9]'}`}>
             {prompt.prompt_text}
           </pre>
           
@@ -79,18 +85,18 @@ export default function PromptCard({ prompt }) {
         </div>
 
         {/* Footer / Interaction */}
-        <div className="p-3 border-t border-white/5 bg-surface-elevated/20 pb-4 px-4 flex-shrink-0">
+        <div className="p-3 border-t border-white/5 bg-surface-elevated/20 pb-4 px-4 flex-shrink-0 z-10 relative">
           <button 
             onClick={handleCopy}
             className={`w-full py-2.5 flex items-center justify-center gap-2 font-bold uppercase tracking-[0.15em] text-[10px] sm:text-xs transition-all cursor-pointer rounded-sm
               ${copied 
-                ? 'bg-brand-primary text-black shadow-[0_0_20px_rgba(255,255,255,0.2)]' 
+                ? 'bg-brand-primary text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-[0.98]' 
                 : 'bg-white/5 text-text-primary border border-white/10 hover:border-white/30 hover:bg-white/10'
               }`}
           >
             {copied ? (
               <>
-                <Check size={14} strokeWidth={3} /> COPIED
+                <Check size={14} strokeWidth={3} /> COPIED EXECUTED
               </>
             ) : (
               <>
