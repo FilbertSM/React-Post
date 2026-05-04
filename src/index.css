@@ -1,38 +1,80 @@
 @import "tailwindcss";
 
-/* 
-  Terminal Alpha Theme Tokens
-  Ref: DESIGN.md & memory/promptvault_revamp/design_plan.md
-*/
-
 @theme {
-  --color-surface-bg: #0D1117;
-  --color-surface-card: #161B22;
+  --color-surface-bg: #050505; /* Deeper, richer Vantablack style */
+  --color-surface-card: #0A0A0A;
+  --color-surface-elevated: #111111;
   
-  --color-text-primary: #E6EDF3;
-  --color-text-secondary: #8B949E;
+  --color-text-primary: #F3F4F6;
+  --color-text-secondary: #8B8B8B;
+  --color-text-muted: #555555;
   
-  --color-brand-primary: #3FB950;
+  --color-brand-primary: #ECECEC; /* Elegant white instead of jarring green */
+  --color-brand-accent: #333333;
   
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Retaining mono for code, adding modern sans for UI */
+  --font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Base override to ensure mono is absolute default */
 @layer base {
   html {
-    font-family: var(--font-mono);
-    /* Forcing scrollbar styling to fit the terminal theme */
+    font-family: var(--font-sans);
     color-scheme: dark;
+    background-color: var(--color-surface-bg);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* The 4% Film Grain Texture */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 }
 
-/* Utilities for terminal aesthetic */
 @layer utilities {
-  .terminal-border {
-    border: 1px solid var(--color-text-secondary);
+  .font-mono {
+    font-family: var(--font-mono);
   }
   
-  .terminal-glow {
-    box-shadow: 0 0 10px rgba(63, 185, 80, 0.2);
+  .glass-panel {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .premium-hover {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .premium-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  }
+
+  .smooth-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .smooth-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .smooth-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-text-muted);
+    border-radius: 10px;
+  }
+  .smooth-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
   }
 }
