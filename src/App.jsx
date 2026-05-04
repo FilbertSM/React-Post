@@ -1,89 +1,101 @@
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from './ThemeContext.jsx';
+import React, { useState } from 'react';
+import { usePrompts } from './hooks/usePrompts';
+import PromptCard from './components/vault/PromptCard';
+import SkeletonCard from './components/ui/SkeletonCard';
+import SearchBar from './components/ui/SearchBar';
+import { Terminal, Database, Zap } from 'lucide-react';
 
-// Pages    
-import Home from './pages/Home';
-import PostList from './pages/PostList';
-import PostDetail from './pages/PostDetail';
-import JsonData from './pages/JsonData';
-import JsonDetail from './pages/JsonDetail';
+export default function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isVaultInitialized, setIsVaultInitialized] = useState(false);
 
-// Styles
-import './index.css';
+  // We are skipping pagination for this specific high-speed terminal view, just loading all matching
+  const { data: prompts, isLoading, isError } = usePrompts({ search: searchTerm });
 
-// --- Components ---
-
-const ThemeToggle = () => {
-    const { theme, toggleTheme } = useTheme();
-
-    const iconVariants = {
-        hidden: { rotate: -90, scale: 0, opacity: 0 },
-        visible: { rotate: 0, scale: 1, opacity: 1, transition: { type: 'spring', stiffness: 200, damping: 20 } },
-        exit: { rotate: 90, scale: 0, opacity: 0 }
-    };
-
+  if (!isVaultInitialized) {
     return (
-        <button
-            onClick={toggleTheme}
-            className="w-12 h-12 flex justify-center items-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            aria-label="Toggle dark mode"
+      <div className="min-h-screen p-8 text-center flex flex-col items-center justify-center relative overflow-hidden">
+        {/* Decorative Grid */}
+        <div className="absolute inset-0 border-[rgba(139,148,158,0.05)] border-[1px] bg-[linear-gradient(rgba(139,148,158,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(139,148,158,0.05)_1px,transparent_1px)] bg-[size:30px_30px] -z-10 w-full h-full"></div>
+
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 text-text-primary tracking-tighter hover:terminal-glow transition-all">
+          PromptVault<span className="text-brand-primary animate-pulse">_</span>
+        </h1>
+        
+        <p className="text-text-secondary max-w-xl mx-auto mb-10 text-base leading-relaxed">
+          A high-performance, flat-file terminal to store, search, and execute AI payloads. 
+          Built for engineers. Zero bloat. Absolute control.
+        </p>
+        
+        <button 
+          onClick={() => setIsVaultInitialized(true)}
+          className="bg-brand-primary text-surface-bg px-10 py-4 font-bold uppercase text-sm tracking-[0.2em] hover:bg-[#2ea043] transition-all rounded-sm cursor-pointer border-2 border-brand-primary hover:shadow-[0_0_15px_rgba(63,185,80,0.4)]"
         >
-            <AnimatePresence mode="wait" initial={false}>
-                <motion.div key={theme} variants={iconVariants} initial="hidden" animate="visible" exit="exit">
-                    {theme === 'light' ? '🌙' : '☀️'}
-                </motion.div>
-            </AnimatePresence>
+          Initialize.exe
         </button>
-    );
-};
 
-const Layout = ({ children }) => {
-    return (
-        <div className="min-h-screen font-sans">
-            <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-md sticky top-0 z-10">
-                <nav className="container mx-auto px-4 lg:px-6 py-4">
-                    <div className="flex justify-between items-center">
-                        <NavLink to="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                            JSON Bank
-                        </NavLink>
-                        <div className="flex items-center space-x-4">
-                           <NavLink to="/" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Home</NavLink>
-                           <NavLink to="/posts" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>Posts</NavLink>
-                           <NavLink to="/json-data" className={({isActive}) => `text-lg ${isActive ? 'text-blue-600 dark:text-blue-500 font-semibold' : 'hover:text-blue-500'}`}>JSON Data</NavLink>
-                           {/* <ThemeToggle /> */}
-                        </div>
-                    </div>
-                </nav>
-            </header>
-            
-            <main className="container mx-auto px-4 lg:px-6 py-8">
-                {children}
-            </main>
-
-            <footer className="text-center py-4 border-t border-gray-200 dark:border-gray-700 mt-8">
-                <p>Built with React, Tailwind, & Framer Motion</p>
-                <p>&copy; {new Date().getFullYear()} FilbertSM. All rights reserved.</p>
-            </footer>
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full text-left">
+          <div className="border border-text-secondary/20 bg-surface-card p-6 rounded-md">
+            <Terminal className="text-brand-primary mb-4" size={24} />
+            <h3 className="font-bold text-text-primary mb-2">Terminal Alpha UI</h3>
+            <p className="text-text-secondary text-xs">Strict brutalist aesthetic. IBM Plex Mono exclusively. Engineered for focus and high contrast readability.</p>
+          </div>
+          <div className="border border-text-secondary/20 bg-surface-card p-6 rounded-md">
+            <Database className="text-brand-primary mb-4" size={24} />
+            <h3 className="font-bold text-text-primary mb-2">Flat-File Engine</h3>
+            <p className="text-text-secondary text-xs">No heavy database overhead. Powered by a lightweight Express REST API persisting directly via RAM.</p>
+          </div>
+          <div className="border border-text-secondary/20 bg-surface-card p-6 rounded-md">
+            <Zap className="text-brand-primary mb-4" size={24} />
+            <h3 className="font-bold text-text-primary mb-2">Mixed-Media Ready</h3>
+            <p className="text-text-secondary text-xs">Agnostic support for GPT-4 logic arrays or Midjourney visual generation parameters within a singular view.</p>
+          </div>
         </div>
+      </div>
     );
-};
+  }
 
-function App() {
-    return (
-        <BrowserRouter>
-            <Layout>
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/' element={<Home />} />
-                    <Route path='/posts' element={<PostList />} />
-                    <Route path='/posts/:postId' element={<PostDetail />} />
-                    <Route path='/json-data' element={<JsonData />} />
-                    <Route path='/json-data/:postId' element={<JsonDetail />} />
-                </Routes>
-            </Layout>
-        </BrowserRouter>
-    );
+  return (
+    <div className="min-h-screen p-6 md:p-12 max-w-7xl mx-auto">
+      {/* Header Bar */}
+      <header className="flex justify-between items-center mb-8 pb-4 border-b border-text-secondary/30">
+        <h1 
+          className="text-2xl font-bold text-text-primary tracking-tight cursor-pointer hover:text-brand-primary transition-colors"
+          onClick={() => setIsVaultInitialized(false)}
+        >
+          PV<span className="text-brand-primary">_</span>
+        </h1>
+        <div className="text-xs text-text-secondary font-mono flex items-center gap-4">
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span> BACKEND_STATUS: ONLINE</span>
+        </div>
+      </header>
+
+      {/* Main Vault Interface */}
+      <main>
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+
+        {isError && (
+          <div className="text-red-500 border border-red-500/50 bg-red-500/10 p-4 rounded-md text-center mb-8">
+            ERR_CONNECTION_REFUSED: Could not connect to API core.
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {isLoading ? (
+            // Skeleton Loading State
+            Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
+          ) : prompts?.length === 0 ? (
+            <div className="col-span-full py-12 text-center text-text-secondary border border-text-secondary/20 border-dashed rounded-lg bg-surface-card/50">
+              No parameters found matching `{searchTerm}`
+            </div>
+          ) : (
+             // Actual Render
+             prompts?.map(prompt => (
+              <PromptCard key={prompt.id} prompt={prompt} />
+            ))
+          )}
+        </div>
+      </main>
+    </div>
+  );
 }
-
-export default App;

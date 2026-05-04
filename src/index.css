@@ -1,6 +1,38 @@
 @import "tailwindcss";
 
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* 
+  Terminal Alpha Theme Tokens
+  Ref: DESIGN.md & memory/promptvault_revamp/design_plan.md
+*/
+
+@theme {
+  --color-surface-bg: #0D1117;
+  --color-surface-card: #161B22;
+  
+  --color-text-primary: #E6EDF3;
+  --color-text-secondary: #8B949E;
+  
+  --color-brand-primary: #3FB950;
+  
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Base override to ensure mono is absolute default */
+@layer base {
+  html {
+    font-family: var(--font-mono);
+    /* Forcing scrollbar styling to fit the terminal theme */
+    color-scheme: dark;
+  }
+}
+
+/* Utilities for terminal aesthetic */
+@layer utilities {
+  .terminal-border {
+    border: 1px solid var(--color-text-secondary);
+  }
+  
+  .terminal-glow {
+    box-shadow: 0 0 10px rgba(63, 185, 80, 0.2);
+  }
 }

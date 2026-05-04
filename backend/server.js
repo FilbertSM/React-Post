@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import commentRouter from './routes/commentRoutes.js';
-import postRouter from './routes/postRoutes.js';
+import promptRouter from './routes/promptRoutes.js';
 
 const app = express();
 const PORT = 3001;
@@ -9,14 +8,13 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/comments', commentRouter);
-app.use('/api/posts', postRouter);
+// Consolidating everything under /api/prompts
+app.use('/api/prompts', promptRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`[PromptVault] Backend Engine running on http://localhost:${PORT}`);
 });
 
-// Add this new route for the root URL
 app.get('/', (req, res) => {
-    res.send('Welcome to the backend API!');
+    res.json({ message: 'Welcome to the PromptVault API! Try hitting /api/prompts' });
 });
