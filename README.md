@@ -35,7 +35,7 @@ A premium, full-stack React application designed to store, search, and visualize
 ## 📂 Project Structure
 
 ```text
-react-posts2/
+promptvault/
 ├── backend/
 │   ├── routes/
 │   │   └── promptRoutes.js    # In-memory prompt storage & search logic
