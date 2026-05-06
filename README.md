@@ -1,9 +1,12 @@
 <div align="center">
   <img src="./hero_img.png" alt="TopGPT Banner" width="100%">
-</div>
+
 <br />
 
 # ✦ PromptVault
+
+![Hero Image](./public/Hero_Image.png)
+</div>
 
 A premium, full-stack React application designed to store, search, and visualize AI prompts. Built with a luxurious "dark tech" aesthetic, PromptVault focuses on high performance, robust data validation, and a seamless developer experience.
 
@@ -15,6 +18,8 @@ A premium, full-stack React application designed to store, search, and visualize
 - **Advanced Search Engine:** Backend route architecture capable of dynamically querying strings (`title`, `prompt_text`) and deep-filtering arrays (`ai_model`, `category`).
 - **Resilient Data Validation:** Powered by Zod, the backend validates incoming nested data structures dynamically, transforming legacy string structures into array types on the fly.
 - **Lightweight & Portable:** Operates on a highly ephemeral, in-memory array backend. No external database configuration required.
+
+![Content Image](./public/Content_Image.png)
 
 ## 🛠️ Tech Stack
 
