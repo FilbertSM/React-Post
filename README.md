@@ -1,6 +1,4 @@
 <div align="center">
-  <img src="./hero_img.png" alt="TopGPT Banner" width="100%">
-
 <br />
 
 # ✦ PromptVault
